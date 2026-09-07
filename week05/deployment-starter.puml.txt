@@ -1,0 +1,51 @@
+@startuml
+
+node "Depot Laptop" {
+  [Produce Intake Form]
+  [Produce Service]
+  [Payment Repository]
+  [Sync Service]
+
+  database "SQL Database"
+}
+
+node "Receipt Printer" {
+  [Receipt Printing]
+}
+
+node "Manager Phone" {
+  [Report Viewer]
+}
+
+node "Town Office PC" {
+  database "Backup Database"
+}
+
+[Produce Intake Form] --> [Produce Service]
+[Produce Service] --> [Payment Repository]
+[Payment Repository] --> [SQL Database]
+[Sync Service] --> [SQL Database]
+
+[Produce Intake Form] --> [Receipt Printing] : USB/Bluetooth
+
+[Sync Service] ..> "Backup Database" : 4G network\nwhen available\nDaily/Fortnightly sync
+
+[Report Viewer] ..> "Backup Database" : 4G when available
+
+note right of "Depot Laptop"
+When the 4G link is DOWN:
+- Record produce deliveries
+- Store data in SQL Database
+- Calculate payments
+- Print receipts
+end note
+
+note right of "Town Office PC"
+When the 4G link is DOWN:
+- View previously synced records
+- Generate reports
+- No new depot data received
+until connection returns
+end note
+
+@enduml

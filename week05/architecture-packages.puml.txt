@@ -1,0 +1,21 @@
+@startuml 
+package "UI" { 
+  [Produce Intake Form] 
+} 
+package "Business Services" { 
+  [Produce Service] 
+} 
+package "Data Management" { 
+  [Payment Repository] 
+}
+package "Local Storage" {
+[SQL Database]
+}
+package "Sync & Backup" { 
+  [Sync Service] 
+}  
+[Produce Intake Form] --> [Produce Service] 
+[Produce Service] --> [Payment Repository] 
+[Payment Repository] --> [SQL Database]
+[SQL Database] --> [Sync Service]
+@enduml 
